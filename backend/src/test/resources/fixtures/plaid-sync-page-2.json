@@ -1,0 +1,19 @@
+{
+  "added": [
+    {
+      "transaction_id": "posted-dinner-1",
+      "pending_transaction_id": "pending-dinner-1",
+      "amount": 45.50,
+      "iso_currency_code": "USD",
+      "date": "2026-09-10",
+      "pending": false,
+      "name": "Restaurant With Tip",
+      "personal_finance_category": { "primary": "FOOD_AND_DRINK" }
+    }
+  ],
+  "modified": [],
+  "removed": [
+    { "transaction_id": "pending-dinner-1" }
+  ],
+  "next_cursor": "cursor-after-posted"
+}

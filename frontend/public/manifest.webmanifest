@@ -1,0 +1,13 @@
+{
+  "name": "Even",
+  "short_name": "Even",
+  "description": "Split shared expenses and track what you're owed.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafaf9",
+  "theme_color": "#1c1917",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

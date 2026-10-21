@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.supabase/
+node_modules/
+dist/
+target/
+.idea/
+*.iml
+.DS_Store
+.vscode/
+*.log

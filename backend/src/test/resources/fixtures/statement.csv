@@ -1,0 +1,4 @@
+posted_on,description,amount,currency,external_id,status,kind
+2026-09-01,Blue Bottle Coffee,12.50,USD,csv-purchase-1,posted,purchase
+2026-09-05,Payment Thank You,-200.00,USD,csv-payment-1,posted,payment
+2026-09-08,Store Refund,-18.99,USD,csv-refund-1,posted,refund

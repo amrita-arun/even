@@ -1,0 +1,17 @@
+{
+  "added": [
+    {
+      "transaction_id": "pending-dinner-1",
+      "pending_transaction_id": null,
+      "amount": 42.00,
+      "iso_currency_code": "USD",
+      "date": "2026-09-10",
+      "pending": true,
+      "name": "Restaurant Pending",
+      "personal_finance_category": { "primary": "FOOD_AND_DRINK" }
+    }
+  ],
+  "modified": [],
+  "removed": [],
+  "next_cursor": "cursor-after-pending"
+}
