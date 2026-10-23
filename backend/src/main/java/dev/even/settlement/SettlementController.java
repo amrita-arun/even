@@ -1,6 +1,7 @@
 package dev.even.settlement;
 
 import dev.even.auth.CurrentUser;
+import dev.even.conversations.ConversationService;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +19,11 @@ import java.util.UUID;
 public class SettlementController {
 
   private final SettlementService settlements;
+  private final ConversationService conversations;
 
-  public SettlementController(SettlementService settlements) {
+  public SettlementController(SettlementService settlements, ConversationService conversations) {
     this.settlements = settlements;
+    this.conversations = conversations;
   }
 
   @GetMapping("/draft")
@@ -55,7 +58,9 @@ public class SettlementController {
       JwtAuthenticationToken authentication,
       @PathVariable UUID id) {
     CurrentUser user = CurrentUser.from(authentication);
-    return SettlementResponse.from(settlements.confirm(user.id(), id));
+    SettlementResponse response = SettlementResponse.from(settlements.confirm(user.id(), id));
+    conversations.onSettlementDecided(user.id(), id, true);
+    return response;
   }
 
   @PostMapping("/{id}/reject")
@@ -63,7 +68,9 @@ public class SettlementController {
       JwtAuthenticationToken authentication,
       @PathVariable UUID id) {
     CurrentUser user = CurrentUser.from(authentication);
-    return SettlementResponse.from(settlements.reject(user.id(), id));
+    SettlementResponse response = SettlementResponse.from(settlements.reject(user.id(), id));
+    conversations.onSettlementDecided(user.id(), id, false);
+    return response;
   }
 
   @PostMapping("/mark-paid")

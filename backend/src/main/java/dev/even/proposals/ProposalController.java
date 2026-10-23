@@ -1,6 +1,7 @@
 package dev.even.proposals;
 
 import dev.even.auth.CurrentUser;
+import dev.even.conversations.ConversationService;
 import dev.even.people.PeopleService;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +21,13 @@ public class ProposalController {
 
   private final ProposalService proposals;
   private final PeopleService people;
+  private final ConversationService conversations;
 
-  public ProposalController(ProposalService proposals, PeopleService people) {
+  public ProposalController(
+      ProposalService proposals, PeopleService people, ConversationService conversations) {
     this.proposals = proposals;
     this.people = people;
+    this.conversations = conversations;
   }
 
   @GetMapping
@@ -41,6 +45,7 @@ public class ProposalController {
       JwtAuthenticationToken authentication, @PathVariable UUID id) {
     CurrentUser user = CurrentUser.from(authentication);
     ProposalService.ProposalRecord row = proposals.approve(user.id(), id);
+    conversations.onProposalDecided(user.id(), id, true);
     return ProposalResponse.from(row, people, user.id());
   }
 
@@ -49,6 +54,7 @@ public class ProposalController {
       JwtAuthenticationToken authentication, @PathVariable UUID id) {
     CurrentUser user = CurrentUser.from(authentication);
     ProposalService.ProposalRecord row = proposals.reject(user.id(), id);
+    conversations.onProposalDecided(user.id(), id, false);
     return ProposalResponse.from(row, people, user.id());
   }
 

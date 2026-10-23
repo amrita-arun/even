@@ -1,0 +1,14 @@
+{
+  "name": "even-imessage-bridge",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "spectrum-ts": "^12.13.0"
+  }
+}

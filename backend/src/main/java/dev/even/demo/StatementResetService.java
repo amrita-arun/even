@@ -24,6 +24,8 @@ public class StatementResetService {
   public void reset(UUID userId) {
     jdbc.execute("alter table ledger_entries disable trigger ledger_entries_no_update");
     try {
+      jdbc.update("delete from channel_messages where user_id = ?", userId);
+      jdbc.update("delete from conversations where user_id = ?", userId);
       jdbc.update("delete from split_rules where user_id = ?", userId);
       jdbc.update(
           """

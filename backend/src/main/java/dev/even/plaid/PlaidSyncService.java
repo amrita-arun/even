@@ -5,7 +5,6 @@ import dev.even.ingestion.IngestService;
 import dev.even.ingestion.PlaidSyncPageMapper;
 import dev.even.ingestion.SyncPage;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -32,7 +31,6 @@ public class PlaidSyncService {
     this.ingest = ingest;
   }
 
-  @Transactional
   public SyncSummary syncAccount(UUID userId, UUID accountId) {
     PlaidItemService.ItemSecrets item = items.findByAccount(userId, accountId)
         .orElseThrow(() -> new IllegalArgumentException("account is not linked to Plaid"));

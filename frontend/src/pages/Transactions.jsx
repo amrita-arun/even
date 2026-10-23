@@ -106,7 +106,7 @@ export default function Transactions() {
       </PageIntro>
       <Banner>{error}</Banner>
       <section className="equation">
-        <p><span>Card balance</span><strong>{report ? formatMoney(report.cardBalanceCents) : '…'}</strong></p>
+        <p><span>Card charges</span><strong>{report ? formatMoney((report.trueSpendCents ?? 0) + (report.friendsShareCents ?? 0)) : '…'}</strong></p>
         <span className="op">−</span>
         <p><span>Friends owe you</span><strong>{report ? formatMoney(report.friendsShareCents) : '…'}</strong></p>
         <span className="op">=</span>

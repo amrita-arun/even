@@ -57,7 +57,10 @@ public abstract class PostgresIntegrationTest {
             "/docker-entrypoint-initdb.d/09_proposal_split_request.sql")
         .withCopyFileToContainer(
             MountableFile.forClasspathResource("db/step7_split_rules.sql"),
-            "/docker-entrypoint-initdb.d/10_split_rules.sql");
+            "/docker-entrypoint-initdb.d/10_split_rules.sql")
+        .withCopyFileToContainer(
+            MountableFile.forClasspathResource("db/step8_conversations.sql"),
+            "/docker-entrypoint-initdb.d/11_conversations.sql");
     POSTGRES.start();
     // Init scripts only run on a fresh data dir; apply later steps if a reused
     // container predates those migrations.
@@ -68,6 +71,7 @@ public abstract class PostgresIntegrationTest {
     ensureSchema("proposals", "id", "db/step6_proposals.sql");
     ensureSchema("proposals", "split_request", "db/step6b_proposal_split_request.sql");
     ensureSchema("split_rules", "id", "db/step7_split_rules.sql");
+    ensureSchema("users", "imessage_handle", "db/step8_conversations.sql");
   }
 
   private static void ensureSchema(String table, String column, String classpathSql) {
@@ -103,6 +107,8 @@ public abstract class PostgresIntegrationTest {
     jdbcTemplate.execute(
         """
         truncate table
+          channel_messages,
+          conversations,
           split_rules,
           person_group_members,
           person_groups,

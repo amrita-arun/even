@@ -42,7 +42,7 @@ class AuthSecurityTest {
   void meWithJwtReturnsProfile() throws Exception {
     UUID id = UUID.fromString("11111111-1111-1111-1111-111111111111");
     when(users.upsert(eq(id), eq("amrita@example.com")))
-        .thenReturn(new UserRepository.UserRecord(id, "amrita@example.com"));
+        .thenReturn(new UserRepository.UserRecord(id, "amrita@example.com", null));
 
     mockMvc.perform(get("/api/auth/me")
             .with(jwt().jwt(token -> token

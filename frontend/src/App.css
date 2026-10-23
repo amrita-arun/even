@@ -215,6 +215,9 @@ h2 { font-size: 20px; font-weight: 500; }
 .btn.wide { width: 100%; }
 .btn:disabled { opacity: 0.5; cursor: wait; }
 
+.month-switch { display: inline-flex; align-items: center; gap: 4px; }
+.month-switch .icon-btn { background: #fff; border-color: var(--line); color: var(--ink); }
+.month-switch .icon-btn:disabled { opacity: 0.35; }
 .month-btn { position: relative; border-radius: 12px; min-height: 44px; }
 .month-btn-face {
   display: inline-flex;
@@ -781,6 +784,27 @@ h2 { font-size: 20px; font-weight: 500; }
   padding: 14px;
   color: #939a92;
   font-size: 14px;
+}
+.compose-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  outline: none;
+}
+.handle-row {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+.handle-row label { display: grid; gap: 6px; flex: 1; color: var(--muted); font-size: 13px; }
+.handle-row input {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #fff;
 }
 .imessage-side { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
 .confirm-card { display: flex; flex-direction: column; gap: 24px; padding: 32px; border-radius: 32px; }

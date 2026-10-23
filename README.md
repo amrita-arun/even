@@ -83,6 +83,12 @@ Apply [`supabase/migrations/202610200008_proposals.sql`](supabase/migrations/202
 
 `POST /api/splits/parse` and `POST /api/receipts` turn a sentence or receipt lines into a **pending** proposal. Shares are checked with the same split engine as a manual split. If they do not add up to the charge, nothing is proposed and nothing is posted. **Approve** posts that split. Reminder drafts (`POST /api/reminders`) are kept only when every dollar amount matches the open receivable; otherwise the template is used. Instruction-shaped lines are dropped. Merchant names and memos are stored as data on `ai_audit_log` (`language-mock`, `LanguageSplitFlowTest`). Apply [`supabase/migrations/202610200009_proposal_split_request.sql`](supabase/migrations/202610200009_proposal_split_request.sql) once.
 
+### iMessage
+
+Apply [`supabase/migrations/202610210011_conversations.sql`](supabase/migrations/202610210011_conversations.sql) once. One open conversation at a time. A bare yes does not post unless the conversation is in `confirming`. An unknown name is not saved until you say yes and send a first name, last name, and Venmo username. Approving in the app and replying Y are the same proposal, and the second one does not post again (`ConversationFlowTest`).
+
+The iMessage page uses the simulated channel and does not call Photon. Real texts need a Stable Spectrum project (not a `pho_prj_` Beta id), `SPECTRUM_PROJECT_ID`, `SPECTRUM_PROJECT_SECRET`, `EVEN_BRIDGE_SECRET`, and `EVEN_IMESSAGE_HANDLE` in `.env`. Then `cd bridge && npm install && npm start`. The bridge stays off until the project id and secret are set. You send the first text.
+
 ### Tests
 
 ```bash

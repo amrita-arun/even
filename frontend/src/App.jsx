@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { supabase } from './supabase'
 import SignIn from './SignIn'
+import Landing from './pages/Landing'
 import Shell from './components/Shell'
 import Overview from './pages/Overview'
 import Transactions from './pages/Transactions'
@@ -13,6 +14,7 @@ import './App.css'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
+  const [authOpen, setAuthOpen] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -33,7 +35,10 @@ export default function App() {
   }
 
   if (!session) {
-    return <SignIn onSignedIn={() => {}} />
+    if (!authOpen) {
+      return <Landing onSignIn={() => setAuthOpen(true)} />
+    }
+    return <SignIn onSignedIn={() => {}} onBack={() => setAuthOpen(false)} />
   }
 
   return (

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { supabase } from './supabase'
 
-export default function SignIn({ onSignedIn }) {
+export default function SignIn({ onSignedIn, onBack }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -25,6 +25,11 @@ export default function SignIn({ onSignedIn }) {
 
   return (
     <main className="signin">
+      {onBack ? (
+        <button className="text-btn" type="button" onClick={onBack}>
+          Back
+        </button>
+      ) : null}
       <p className="wordmark">even</p>
       <h1>Sign in</h1>
       <p className="lede">Sign in to continue.</p>

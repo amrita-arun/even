@@ -193,8 +193,11 @@ public class ReportService {
         select coalesce(-sum(e.amount_cents), 0)
         from ledger_entries e
         join ledger_accounts a on a.id = e.ledger_account_id
+        join accounts ac
+          on ac.user_id = a.user_id
+         and a.path = 'Liabilities:' || ac.id::text
         where a.user_id = ?
-          and a.path like 'Liabilities:%'
+          and ac.account_type = 'credit'
         """,
         Long.class,
         userId);

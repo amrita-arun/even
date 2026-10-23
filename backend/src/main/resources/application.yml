@@ -32,6 +32,12 @@ even:
     webhook-url: ${PLAID_WEBHOOK_URL:}
     webhook-secret: ${PLAID_WEBHOOK_SECRET:}
     redirect-uri: ${PLAID_REDIRECT_URI:}
+  bridge:
+    secret: ${EVEN_BRIDGE_SECRET:}
+  imessage:
+    owner-handle: ${EVEN_IMESSAGE_HANDLE:}
+  spectrum:
+    line-phone: ${SPECTRUM_LINE_PHONE:}
 
 logging:
   level:

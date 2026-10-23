@@ -5,18 +5,15 @@ import { allocateCents, errorText, firstName, formatMoney, initialsFromName, mon
 import Icon from '../components/Icon'
 import { Avatar, Banner, Modal, PageIntro } from '../components/ui'
 
-const THREAD = [
-  { from: 'agent', text: 'Just saw a $65 Uber with no split. Who was with you?' },
-  { from: 'you', text: 'Alex, 50/50' },
-  { from: 'agent', text: '$65.40 total. $32.70 each.', reply: true },
-]
-
 export default function IMessage() {
   const { initials, refreshShell } = useOutletContext()
   const [proposals, setProposals] = useState([])
   const [selectedId, setSelectedId] = useState('')
   const [postedOn, setPostedOn] = useState({})
   const [owed, setOwed] = useState(0)
+  const [thread, setThread] = useState(null)
+  const [draft, setDraft] = useState('')
+  const [handle, setHandle] = useState('')
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [busy, setBusy] = useState(false)
@@ -25,11 +22,14 @@ export default function IMessage() {
   const [picked, setPicked] = useState([])
 
   async function reload(preferredId) {
-    const [rows, balances, transactions] = await Promise.all([
+    const [rows, balances, transactions, conversation] = await Promise.all([
       apiFetch('/api/proposals?status=pending'),
       apiFetch('/api/reports/balances'),
       apiFetch('/api/transactions'),
+      apiFetch('/api/conversations'),
     ])
+    setThread(conversation)
+    setHandle(conversation.handle || '')
     setProposals(rows)
     setSelectedId((current) => {
       const next = preferredId || current
@@ -57,7 +57,7 @@ export default function IMessage() {
     setNotice('')
     try {
       await apiFetch(`/api/proposals/${selected.id}/approve`, { method: 'POST' })
-      setNotice(`Confirmed ${selected.description}. No external message was sent.`)
+      setNotice(`Confirmed ${selected.description}.`)
       await reload()
       refreshShell?.()
     } catch (err) {
@@ -74,9 +74,49 @@ export default function IMessage() {
     setNotice('')
     try {
       await apiFetch(`/api/proposals/${selected.id}/reject`, { method: 'POST' })
-      setNotice(`Canceled ${selected.description}. No request was sent.`)
+      setNotice(`Canceled ${selected.description}.`)
       await reload()
       refreshShell?.()
+    } catch (err) {
+      setError(errorText(err))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function send(event) {
+    event.preventDefault()
+    const text = draft.trim()
+    if (!text) return
+    setBusy(true)
+    setError('')
+    setNotice('')
+    try {
+      await apiFetch('/api/conversations/messages', {
+        method: 'POST',
+        body: JSON.stringify({ text }),
+      })
+      setDraft('')
+      await reload()
+    } catch (err) {
+      setError(errorText(err))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function saveHandle(event) {
+    event.preventDefault()
+    setBusy(true)
+    setError('')
+    try {
+      const conversation = await apiFetch('/api/conversations/handle', {
+        method: 'PUT',
+        body: JSON.stringify({ handle }),
+      })
+      setThread(conversation)
+      setHandle(conversation.handle || '')
+      setNotice('Saved the number Even will answer.')
     } catch (err) {
       setError(errorText(err))
     } finally {
@@ -119,10 +159,30 @@ export default function IMessage() {
   return (
     <>
       <PageIntro title="iMessage agent">
-        <span className="chip quiet">Preview mode</span>
+        <span className="chip quiet">Simulated</span>
       </PageIntro>
       <Banner>{error}</Banner>
       <Banner tone="ok">{notice}</Banner>
+      {thread && !thread.handle ? (
+        <form className="handle-row" onSubmit={saveHandle}>
+          <label>
+            Your phone number
+            <input
+              value={handle}
+              onChange={(event) => setHandle(event.target.value)}
+              placeholder="+15551212"
+              aria-label="Your phone number"
+            />
+          </label>
+          <button className="btn secondary" type="submit" disabled={busy || !handle.trim()}>Save</button>
+        </form>
+      ) : null}
+      {thread?.smsHref ? (
+        <p className="muted-line">
+          <a href={thread.smsHref}>Text Even first</a>
+          {' '}so the line is a conversation you started.
+        </p>
+      ) : null}
       <section className="imessage-grid">
         <article className="panel thread">
           <header className="thread-head">
@@ -136,30 +196,31 @@ export default function IMessage() {
             </span>
           </header>
           <div className="thread-body">
-            <p className="thread-date mono">FRIDAY, OCT 16 · 9:45 PM</p>
-            {THREAD.map((message) => (
-              message.from === 'you' ? (
-                <div key={message.text} className="bubble-row">
-                  <p className="bubble you">{message.text}</p>
+            {(thread?.messages || []).length === 0 ? (
+              <p className="muted-line">Nothing is waiting. A new question shows up here when a purchase needs you.</p>
+            ) : thread.messages.map((message) => (
+              message.direction === 'inbound' ? (
+                <div key={message.id} className="bubble-row">
+                  <p className="bubble you">{message.body}</p>
                 </div>
               ) : (
-                <p key={message.text} className={message.reply ? 'bubble reply' : 'bubble'}>
-                  {message.text}
-                </p>
+                <p key={message.id} className="bubble">{message.body}</p>
               )
             ))}
           </div>
-          <div className="thread-compose">
-            <button type="button" className="compose-icon" aria-disabled="true" tabIndex={-1}>
-              <Icon name="plus" size={20} />
-            </button>
+          <form className="thread-compose" onSubmit={send}>
             <div className="compose-field">
-              <span>iMessage</span>
-              <button type="button" className="compose-icon" aria-disabled="true" tabIndex={-1} aria-label="Send">
+              <input
+                aria-label="Message"
+                placeholder="iMessage"
+                value={draft}
+                onChange={(event) => setDraft(event.target.value)}
+              />
+              <button type="submit" className="compose-icon" aria-label="Send" disabled={busy || !draft.trim()}>
                 <Icon name="arrow-up" size={18} />
               </button>
             </div>
-          </div>
+          </form>
         </article>
         <div className="imessage-side">
           <article className="panel confirm-card">

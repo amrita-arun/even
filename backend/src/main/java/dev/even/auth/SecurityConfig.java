@@ -31,6 +31,9 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.GET, "/api/health").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/plaid/webhooks").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/conversations/inbound").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/conversations/outbound").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/conversations/outbound/*/sent").permitAll()
             .anyRequest().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2
             .jwt(Customizer.withDefaults())

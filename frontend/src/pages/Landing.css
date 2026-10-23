@@ -1,0 +1,812 @@
+.landing {
+  --ink: #0d1210;
+  --secondary: #6c746d;
+  --on-dark: #ffffff;
+  --green: #0f3d2e;
+  --lime: #c9f26b;
+  --card: #ffffff;
+  --canvas: #f3f5f4;
+  --wallet: #e7ece9;
+  --hover: #eaf0ec;
+  --line: #dce3de;
+  --muted-line: #ccd7ce;
+  --stone: #465048;
+  --font: "Instrument Sans", "Avenir Next", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --pad: 64px;
+  --content: 1312px;
+}
+.landing, .landing * {
+  box-sizing: border-box;
+}
+.landing {
+  scroll-behavior: smooth;
+}
+.landing {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.45;
+}
+.landing a {
+  color: inherit;
+  text-decoration: none;
+}
+.landing button, .landing a.btn {
+  font-family: inherit;
+}
+.landing .page {
+  min-height: 100vh;
+}
+.landing .nav, .landing .hero, .landing .section-intro, .landing .dinner, .landing .spending, .landing .texts, .landing .guess, .landing .control, .landing .faq, .landing .close, .landing .footer {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+}
+.landing .nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: 96px;
+  padding: 0 var(--pad);
+  background: rgba(243, 245, 244, 0.92);
+  backdrop-filter: blur(12px);
+}
+.landing .wordmark, .landing .footer-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+}
+.landing .wordmark.light {
+  color: var(--on-dark);
+}
+.landing .balance-mark {
+  display: grid;
+  gap: 5px;
+  width: 22px;
+}
+.landing .balance-mark span {
+  display: block;
+  height: 2px;
+  background: currentColor;
+}
+.landing .nav-links, .landing .footer nav {
+  display: flex;
+  gap: 36px;
+  justify-content: center;
+  color: var(--secondary);
+  font-size: 15px;
+}
+.landing .nav-links a:hover, .landing .footer nav a:hover {
+  color: var(--ink);
+}
+.landing .nav-actions, .landing .hero-actions, .landing .thread-actions, .landing .suggest-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  align-items: center;
+}
+.landing .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+}
+.landing .btn.primary {
+  color: #10241c;
+  border-color: transparent;
+  background:
+    radial-gradient(130% 180% at 100% 30%, rgba(20, 72, 50, 0.42) 0%, rgba(61, 130, 86, 0.16) 46%, transparent 72%),
+    linear-gradient(102deg, #eef8c4 0%, #d8f29a 42%, #c6eb86 100%);
+}
+.landing .btn.primary:hover {
+  filter: brightness(1.03);
+}
+.landing .btn.quiet {
+  background: var(--card);
+  border-color: var(--line);
+  color: var(--ink);
+}
+.landing .btn.quiet:hover {
+  background: var(--hover);
+}
+.landing .btn.wide, .landing .btn.grow {
+  width: 100%;
+}
+.landing .btn.grow {
+  flex: 1;
+}
+.landing .hero {
+  display: grid;
+  grid-template-columns: minmax(0, 654px) minmax(280px, 1fr);
+  gap: 32px;
+  align-items: center;
+  min-height: 838px;
+  padding: 48px var(--pad) 72px;
+  position: static;
+  border-radius: 0;
+  color: var(--ink);
+  background: none;
+}
+.landing .hero h1, .landing .dinner h2, .landing .spending h2, .landing .texts h2, .landing .guess h2, .landing .control h2, .landing .faq h2, .landing .close h2 {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+.landing .hero h1 {
+    font-size: clamp(44px, 5vw, 72px);
+    line-height: 1.05;
+  }
+.landing .hero-copy p, .landing .section-intro p, .landing .spend-copy > p, .landing .text-copy p, .landing .guess-copy > p {
+  max-width: 440px;
+  color: var(--secondary);
+  font-size: 18px;
+}
+.landing .hero-copy > p {
+  margin-top: 28px;
+}
+.landing .hero-actions {
+  justify-content: flex-start;
+  margin-top: 40px;
+}
+.landing .wallet {
+  position: relative;
+  height: 560px;
+}
+.landing .wallet-card {
+  position: absolute;
+  width: min(460px, 86%);
+  border-radius: 24px;
+  padding: 32px;
+}
+.landing .wallet-card.pale {
+  top: 18px;
+  left: 0;
+  background: #f7f8f6;
+  border: 1px solid var(--line);
+  transform: rotate(-8deg);
+  box-shadow: 0 18px 40px rgba(13, 18, 16, 0.05);
+}
+.landing .wallet-card.spend {
+  top: 168px;
+  left: 72px;
+  color: var(--on-dark);
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(201, 242, 107, 0.45), transparent 42%),
+    linear-gradient(135deg, #12382c 0%, #1d5a40 58%, #0f3d2e 100%);
+  transform: rotate(4deg);
+  box-shadow: 0 24px 50px rgba(15, 61, 46, 0.25);
+}
+.landing .card-kicker, .landing .eyebrow, .landing .muted, .landing .fine, .landing .caption, .landing .card-note {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 13px;
+}
+.landing .eyebrow {
+  text-transform: none;
+  letter-spacing: normal;
+}
+.landing .eyebrow.light, .landing .caption.light, .landing .card-note, .landing .wallet-card.spend .card-kicker {
+  color: rgba(255, 255, 255, 0.72);
+}
+.landing .card-kicker-row {
+  display: flex;
+  justify-content: space-between;
+}
+.landing .card-figure, .landing .money.display {
+  margin: 12px 0 0;
+  font-family: var(--mono);
+  font-size: 52px;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+}
+.landing .mini-balance, .landing .share-bar {
+  display: flex;
+  gap: 4px;
+  margin-top: 28px;
+}
+.landing .bill .share-bar {
+  margin: 28px 0 22px;
+}
+.landing .bill .fine {
+  margin-top: 18px;
+}
+.landing .mini-balance {
+  height: 2px;
+  background: linear-gradient(90deg, var(--lime) 62%, rgba(255, 255, 255, 0.28) 62%);
+}
+.landing .mini-balance.light {
+  background: linear-gradient(90deg, var(--lime) 70%, rgba(255, 255, 255, 0.25) 70%);
+}
+.landing .dinner, .landing .control {
+  background: var(--ink);
+  color: var(--on-dark);
+  width: 100%;
+  max-width: none;
+}
+.landing .dinner > *, .landing .control > * {
+  width: min(var(--content), calc(100% - (var(--pad) * 2)));
+  margin-left: auto;
+  margin-right: auto;
+}
+.landing .dinner {
+  padding: 112px 0 72px;
+}
+.landing .section-intro, .landing .spend-copy, .landing .text-copy, .landing .guess-copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  align-items: flex-end;
+}
+.landing .dinner h2, .landing .control h2 {
+  font-size: clamp(40px, 4vw, 56px);
+  line-height: 1.05;
+}
+.landing .section-intro p, .landing .control p, .landing .dinner .caption.light {
+  color: rgba(255, 255, 255, 0.68);
+}
+.landing .steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 72px auto 0;
+  width: min(var(--content), calc(100% - (var(--pad) * 2)));
+}
+.landing .steps li {
+  display: block;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+}
+.landing .step-line {
+  display: block;
+  width: auto;
+  height: 2px;
+  margin-bottom: 12px;
+  border: 0;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.18);
+}
+.landing .steps .active {
+  color: var(--on-dark);
+}
+.landing .steps .active .step-line {
+  background: var(--lime);
+}
+.landing .dinner-stage {
+  display: grid;
+  grid-template-columns: 340px 430px 1fr;
+  gap: 32px;
+  align-items: center;
+  margin-top: 64px;
+  width: min(var(--content), calc(100% - (var(--pad) * 2)));
+}
+.landing .charge-card, .landing .split-card, .landing .result-card, .landing .bill, .landing .thread, .landing .suggest-card {
+  background: var(--card);
+  color: var(--ink);
+  border-radius: 24px;
+}
+.landing .thread {
+  min-height: 0;
+  overflow: visible;
+}
+.landing .thread-head {
+  border: 0;
+  padding: 0;
+}
+.landing .charge-card, .landing .result-card {
+  padding: 0 0 8px;
+}
+.landing .charge-card {
+  background: var(--card);
+  border-radius: 24px;
+  padding: 24px;
+}
+.landing .charge-merchant, .landing .suggest-card header, .landing .split-card li, .landing .allocations li, .landing .breakdown li, .landing .thread-head, .landing .bill-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.landing .avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--on-dark);
+  font-size: 14px;
+  flex: none;
+}
+.landing .avatar.sm {
+  width: 32px;
+  height: 32px;
+}
+.landing .merchant {
+  display: block;
+  margin: 0;
+  font-weight: 500;
+}
+.landing .money {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+.landing .money.lg {
+  margin: 18px 0 0;
+  font-size: 36px;
+}
+.landing .money.md {
+  font-size: 28px;
+}
+.landing .caption {
+  margin-top: 16px;
+}
+.landing .split-card, .landing .bill, .landing .thread, .landing .suggest-card {
+  padding: 24px 28px 20px;
+}
+.landing .split-head, .landing .bill-head, .landing .thread-head, .landing .suggest-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.landing .split-card h3, .landing .bill h3, .landing .thread h3, .landing .suggest-card h3, .landing .control h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.landing .pill {
+  border-radius: 999px;
+  background: var(--hover);
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.landing .split-card ul, .landing .allocations, .landing .breakdown, .landing .control-grid {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+}
+.landing .split-card li, .landing .allocations li, .landing .breakdown li {
+  min-height: 40px;
+}
+.landing .hairline {
+  height: 1px;
+  background: var(--line);
+  margin: 8px 0 16px;
+}
+.landing .fine {
+  text-align: center;
+  margin: 10px 0 0;
+}
+.landing .result-card {
+  background:
+    radial-gradient(90% 80% at 100% 0%, rgba(201, 242, 107, 0.4), transparent 46%),
+    linear-gradient(160deg, #14382c, #0f3d2e 70%);
+  color: var(--on-dark);
+  min-height: 268px;
+  padding: 28px;
+}
+.landing .result-card .money.display {
+  font-size: 64px;
+}
+.landing .result-card .mini-balance {
+  margin-top: 40px;
+}
+.landing .result-card .card-note {
+  margin-top: 20px;
+}
+.landing .result-card .caption {
+  margin-top: 12px;
+}
+.landing .spending, .landing .texts, .landing .faq {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  padding: 112px var(--pad);
+  background: var(--canvas);
+}
+.landing .spending h2, .landing .texts h2, .landing .guess h2, .landing .faq h2, .landing .close h2 {
+  font-size: clamp(44px, 4.6vw, 64px);
+  line-height: 1.02;
+}
+.landing .pct {
+  font-family: var(--mono);
+  color: var(--secondary);
+}
+.landing .allocations li .pct {
+  margin-left: auto;
+}
+.landing .allocations li .money {
+  min-width: 5.5em;
+  text-align: right;
+}
+.landing .methods {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 22px 0 8px;
+}
+.landing .method {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--secondary);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+.landing .method.on {
+  background: var(--ink);
+  color: var(--on-dark);
+}
+.landing .share-bar span {
+  height: 4px;
+  flex: 1;
+  border-radius: 999px;
+  background: var(--green);
+}
+.landing .share-bar span:nth-child(2) {
+  background: #1f6b45;
+}
+.landing .share-bar span:nth-child(3) {
+  background: #7d8f84;
+}
+.landing .share-bar span:nth-child(4) {
+  background: var(--lime);
+}
+.landing .texts {
+  padding-top: 40px;
+}
+.landing .imessage {
+  justify-self: end;
+  width: min(360px, 100%);
+  padding: 22px 16px 14px;
+  border-radius: 36px;
+  background: #f2f2f7;
+  box-shadow: 0 18px 50px rgba(13, 18, 16, 0.08);
+  color: #111;
+}
+.landing .imessage-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.landing .imessage-avatar {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 6px;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+}
+.landing .imessage-top strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.landing .imessage-top small, .landing .imessage-day {
+  color: #8e8e93;
+  font-size: 11px;
+}
+.landing .imessage-day {
+  margin: 14px 0 10px;
+  text-align: center;
+}
+.landing .imessage-log {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.landing .imsg {
+  width: fit-content;
+  max-width: 84%;
+  margin: 0;
+  padding: 9px 12px;
+  font-size: 15px;
+  line-height: 1.35;
+}
+.landing .imsg.in {
+  background: #e5e5ea;
+  color: #111;
+  border-radius: 18px 18px 18px 5px;
+}
+.landing .imsg.out {
+  align-self: flex-end;
+  background: #0a84ff;
+  color: #fff;
+  border-radius: 18px 18px 5px 18px;
+}
+.landing .imsg.receipt {
+  width: min(250px, 88%);
+  max-width: 88%;
+  padding: 10px 12px 12px;
+}
+.landing .imsg-kicker {
+  margin: 0;
+  color: #636366;
+  font-size: 12px;
+}
+.landing .imsg-rows {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.landing .imsg-rows li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14px;
+}
+.landing .imsg-replies {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.landing .imsg-replies a, .landing .imsg-replies button {
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #0a84ff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.landing .imessage-compose {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #fff;
+  color: #8e8e93;
+  font-size: 15px;
+}
+.landing .imessage-plus {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #e5e5ea;
+  color: #111;
+  font-size: 16px;
+  line-height: 1;
+}
+.landing .proposal-grid p, .landing .pair p {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+.landing .proposal-grid span, .landing .pair span {
+  color: var(--secondary);
+  font-size: 13px;
+}
+.landing .guess {
+  display: grid;
+  grid-template-columns: 1fr minmax(280px, 460px);
+  gap: 48px;
+  align-items: center;
+  padding: 96px var(--pad);
+  background: var(--card);
+}
+.landing .guess-copy {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+}
+.landing .suggest-card {
+  background: var(--canvas);
+}
+.landing .suggest-card header .money {
+  margin-left: auto;
+}
+.landing .pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+.landing .pair p {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 16px;
+}
+.landing .pair strong, .landing .proposal-grid strong {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 22px;
+}
+.landing .suggest-actions {
+  margin-top: 12px;
+}
+.landing .control {
+  padding: 96px 0;
+}
+.landing .control-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  width: min(var(--content), calc(100% - (var(--pad) * 2)));
+  margin: 72px auto 0;
+}
+.landing .control-grid li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+.landing .index {
+  display: block;
+  margin: 0;
+  color: var(--lime);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1;
+}
+.landing .control-grid p {
+  color: rgba(255, 255, 255, 0.68);
+  max-width: 280px;
+}
+.landing .faq-list {
+  border-top: 1px solid var(--line);
+}
+.landing .faq-item {
+  border-bottom: 1px solid var(--line);
+}
+.landing .faq-item button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 0;
+  background: none;
+  border: 0;
+  text-align: left;
+  font: inherit;
+  font-size: 18px;
+  cursor: pointer;
+}
+.landing .faq-item p {
+  margin: 0 0 18px;
+  color: var(--secondary);
+  max-width: 560px;
+}
+.landing .chevron {
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+  transform: rotate(45deg);
+  margin-right: 6px;
+}
+.landing .faq-item.open .chevron {
+  transform: rotate(225deg);
+  margin-top: 4px;
+}
+.landing .close {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  padding: 96px var(--pad);
+  background: var(--wallet);
+}
+.landing .close .btn {
+  margin-top: 28px;
+}
+.landing .footer {
+  display: grid;
+  grid-template-columns: 1.2fr auto auto;
+  align-items: center;
+  gap: 24px;
+  padding: 28px var(--pad) 40px;
+  background: var(--wallet);
+}
+.landing .footer-mark {
+  font-size: 64px;
+  margin: 0;
+}
+.landing .footer .fine {
+  margin: 0;
+  text-align: right;
+}
+
+@media (max-width: 980px) {
+.landing {
+    --pad: 24px;
+  }
+.landing .nav {
+    grid-template-columns: 1fr auto;
+    height: auto;
+    padding: 16px var(--pad);
+    gap: 12px 16px;
+  }
+.landing .nav-links {
+    display: none;
+  }
+.landing .hero, .landing .spending, .landing .texts, .landing .guess, .landing .faq, .landing .dinner-stage, .landing .control-grid, .landing .section-intro, .landing .guess-copy, .landing .spend-copy, .landing .text-copy, .landing .footer {
+    grid-template-columns: 1fr;
+    display: grid;
+    align-items: start;
+  }
+.landing .hero {
+    min-height: 0;
+    padding-top: 24px;
+  }
+.landing .hero h1, .landing .spending h2, .landing .texts h2, .landing .guess h2, .landing .faq h2, .landing .close h2, .landing .dinner h2, .landing .control h2 {
+    font-size: 36px;
+  }
+.landing .spending, .landing .texts, .landing .guess, .landing .faq, .landing .hero, .landing .bill, .landing .thread, .landing .suggest-card, .landing .spend-copy, .landing .text-copy, .landing .guess-copy, .landing .ledger {
+    min-width: 0;
+  }
+.landing .wallet {
+    height: 460px;
+  }
+.landing .wallet-card {
+    width: 78%;
+  }
+.landing .wallet-card.spend {
+    left: 14%;
+    top: 148px;
+  }
+.landing .card-figure, .landing .money.display, .landing .result-card .money.display {
+    font-size: 40px;
+  }
+.landing .steps {
+    grid-template-columns: 1fr;
+  }
+.landing .imessage {
+    justify-self: center;
+  }
+.landing .dinner-stage {
+    margin-top: 32px;
+  }
+.landing .footer nav {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+.landing .footer .fine {
+    text-align: left;
+  }
+.landing .close {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+

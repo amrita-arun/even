@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import dev.even.ingestion.NotFoundException;
 import dev.even.people.PeopleService;
+import dev.even.splits.SplitEngine;
 import dev.even.splits.SplitMethod;
 import dev.even.splits.SplitRuleService;
 import dev.even.splits.SplitService;
@@ -28,18 +29,21 @@ public class ProposalService {
   private final PeopleService people;
   private final SplitService splits;
   private final SplitRuleService splitRules;
+  private final SplitEngine splitEngine;
 
   public ProposalService(
       JdbcTemplate jdbc,
       ObjectMapper mapper,
       PeopleService people,
       SplitService splits,
-      SplitRuleService splitRules) {
+      SplitRuleService splitRules,
+      SplitEngine splitEngine) {
     this.jdbc = jdbc;
     this.mapper = mapper;
     this.people = people;
     this.splits = splits;
     this.splitRules = splitRules;
+    this.splitEngine = splitEngine;
   }
 
   /**
@@ -490,6 +494,28 @@ public class ProposalService {
     } catch (Exception e) {
       throw new IllegalStateException("invalid proposal person_ids", e);
     }
+  }
+
+  /**
+   * Shares approval would post. Does not write a journal group.
+   */
+  public List<SplitEngine.ComputedShare> previewShares(UUID userId, UUID proposalId) {
+    ProposalRecord proposal = requireOwned(userId, proposalId);
+    if (proposal.splitRequestJson() != null && !proposal.splitRequestJson().isBlank()) {
+      SplitService.SplitRequest request = readSplit(proposal.splitRequestJson());
+      List<SplitEngine.ShareInput> inputs = request.shares().stream()
+          .map(share -> new SplitEngine.ShareInput(
+              share.personId(), share.shareCents(), share.basisPoints(), share.itemizedCents()))
+          .toList();
+      return splitEngine.compute(
+          proposal.amountCents(), request.method(), inputs, request.taxCents(), request.tipCents());
+    }
+    List<SplitEngine.ShareInput> inputs = new ArrayList<>();
+    inputs.add(new SplitEngine.ShareInput(null, null, null, null));
+    for (UUID personId : proposal.personIds()) {
+      inputs.add(new SplitEngine.ShareInput(personId, null, null, null));
+    }
+    return splitEngine.compute(proposal.amountCents(), SplitMethod.equal, inputs, 0L, 0L);
   }
 
   private String toJson(List<UUID> ids) {

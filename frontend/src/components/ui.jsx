@@ -1,4 +1,4 @@
-import { initialsFromName } from '../format'
+import { currentMonth, initialsFromName, shiftMonth } from '../format'
 import Icon from './Icon'
 
 export function Avatar({ name, initials, tone = 'forest', size = 40 }) {
@@ -32,19 +32,42 @@ export function Banner({ tone = 'error', children }) {
 }
 
 export function MonthButton({ month, label, onChange }) {
+  const atCurrent = month >= currentMonth()
   return (
-    <label className="month-btn">
-      <span className="month-btn-face">
-        <Icon name="calendar" size={16} />
-        {label}
-      </span>
-      <input
-        type="month"
-        aria-label="Month"
-        value={month}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
+    <div className="month-switch">
+      <button
+        type="button"
+        className="icon-btn"
+        aria-label="Previous month"
+        onClick={() => onChange(shiftMonth(month, -1))}
+      >
+        <Icon name="arrow-left" size={16} />
+      </button>
+      <label className="month-btn">
+        <span className="month-btn-face">
+          <Icon name="calendar" size={16} />
+          {label}
+        </span>
+        <input
+          type="month"
+          aria-label="Month"
+          max={currentMonth()}
+          value={month}
+          onChange={(event) => {
+            if (event.target.value) onChange(event.target.value)
+          }}
+        />
+      </label>
+      <button
+        type="button"
+        className="icon-btn"
+        aria-label="Next month"
+        disabled={atCurrent}
+        onClick={() => onChange(shiftMonth(month, 1))}
+      >
+        <Icon name="arrow-right" size={16} />
+      </button>
+    </div>
   )
 }
 

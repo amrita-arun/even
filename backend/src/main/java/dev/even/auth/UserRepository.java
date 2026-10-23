@@ -17,11 +17,27 @@ public class UserRepository {
 
   public Optional<UserRecord> findById(UUID id) {
     var rows = jdbc.query(
-        "select id, email from users where id = ?",
-        (rs, rowNum) -> new UserRecord(
-            UUID.fromString(rs.getString("id")),
-            rs.getString("email")),
+        "select id, email, imessage_handle from users where id = ?",
+        (rs, rowNum) -> mapUser(rs),
         id);
+    return rows.stream().findFirst();
+  }
+
+  public Optional<UserRecord> onlyUser() {
+    var rows = jdbc.query(
+        "select id, email, imessage_handle from users",
+        (rs, rowNum) -> mapUser(rs));
+    if (rows.size() != 1) {
+      return Optional.empty();
+    }
+    return Optional.of(rows.getFirst());
+  }
+
+  public Optional<UserRecord> findByHandle(String handle) {
+    var rows = jdbc.query(
+        "select id, email, imessage_handle from users where imessage_handle = ?",
+        (rs, rowNum) -> mapUser(rs),
+        handle);
     return rows.stream().findFirst();
   }
 
@@ -34,8 +50,23 @@ public class UserRepository {
         """,
         id,
         email);
-    return new UserRecord(id, email);
+    return findById(id).orElseThrow();
   }
 
-  public record UserRecord(UUID id, String email) {}
+  public void setHandle(UUID id, String handle) {
+    try {
+      jdbc.update("update users set imessage_handle = ? where id = ?", handle, id);
+    } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+      throw new IllegalArgumentException("that number is already registered");
+    }
+  }
+
+  private static UserRecord mapUser(java.sql.ResultSet rs) throws java.sql.SQLException {
+    return new UserRecord(
+        UUID.fromString(rs.getString("id")),
+        rs.getString("email"),
+        rs.getString("imessage_handle"));
+  }
+
+  public record UserRecord(UUID id, String email, String imessageHandle) {}
 }
