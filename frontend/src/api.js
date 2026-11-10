@@ -16,7 +16,8 @@ export async function apiFetch(path, options = {}) {
     headers.set('Content-Type', 'application/json')
   }
 
-  const response = await fetch(path, { ...options, headers })
+  const base = import.meta.env.VITE_API_BASE ?? ''
+  const response = await fetch(base + path, { ...options, headers })
   if (!response.ok) {
     const text = await response.text()
     throw new Error(text || `Request failed: ${response.status}`)
