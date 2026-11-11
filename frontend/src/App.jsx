@@ -14,7 +14,8 @@ import './App.css'
 
 export default function App() {
   const [session, setSession] = useState(undefined)
-  const [authOpen, setAuthOpen] = useState(false)
+  // null = Landing; 'signin' / 'signup' = which auth form to show.
+  const [authMode, setAuthMode] = useState(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -35,10 +36,22 @@ export default function App() {
   }
 
   if (!session) {
-    if (!authOpen) {
-      return <Landing onSignIn={() => setAuthOpen(true)} />
+    if (!authMode) {
+      return (
+        <Landing
+          onSignIn={() => setAuthMode('signin')}
+          onSignUp={() => setAuthMode('signup')}
+        />
+      )
     }
-    return <SignIn onSignedIn={() => {}} onBack={() => setAuthOpen(false)} />
+    return (
+      <SignIn
+        mode={authMode}
+        onSignedIn={() => {}}
+        onBack={() => setAuthMode(null)}
+        onSwitchMode={setAuthMode}
+      />
+    )
   }
 
   return (

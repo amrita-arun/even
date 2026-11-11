@@ -72,7 +72,7 @@ const splitMethods = [
   { id: 'itemized', label: 'Itemized' },
 ]
 
-export default function Landing({ onSignIn }) {
+export default function Landing({ onSignIn, onSignUp }) {
   const [openQuestion, setOpenQuestion] = useState(0);
   const [splitMethod, setSplitMethod] = useState('equal');
 
@@ -88,7 +88,7 @@ export default function Landing({ onSignIn }) {
         </nav>
         <div className="nav-actions">
           <QuietButton onClick={onSignIn}>Log in</QuietButton>
-          <PrimaryButton onClick={onSignIn}>Get started</PrimaryButton>
+          <PrimaryButton onClick={onSignUp}>Get started</PrimaryButton>
         </div>
       </header>
 
@@ -105,7 +105,7 @@ export default function Landing({ onSignIn }) {
             See what you actually spent. Even shares of every table, settled.
           </p>
           <div className="hero-actions">
-            <PrimaryButton onClick={onSignIn}>Get started</PrimaryButton>
+            <PrimaryButton onClick={onSignUp}>Get started</PrimaryButton>
             <QuietButton href="#dinner">See a dinner</QuietButton>
           </div>
         </div>
@@ -400,7 +400,7 @@ export default function Landing({ onSignIn }) {
             <br />
             yours.
           </h2>
-          <PrimaryButton onClick={onSignIn}>Get started</PrimaryButton>
+          <PrimaryButton onClick={onSignUp}>Get started</PrimaryButton>
         </div>
       </section>
 
